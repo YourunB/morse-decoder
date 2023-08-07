@@ -41,7 +41,9 @@ function decode(expr) {
   let arr = expr.match(/..?/g);
   let char = "";
   let count = 0;
+  let countWord = 0;
   for (let i = 0; i < arr.length; i++) {
+    countWord = countWord + 1;
     if (arr[i] == 10) char = char + ".";
     if (arr[i] == 11) char = char + "-";
     if (arr[i] == "**") {
@@ -51,29 +53,21 @@ function decode(expr) {
         count = 0;
       }
     }
-  }
-
-  let tmp = "";
-  let resultArr = []; 
-  for (let i = 0; i < char.length; i ++) {
-    if (char[i] !== " ") {
-      tmp = tmp + char[i];
-    }
-    if (i == char.length - 1 && tmp != "") {
-      resultArr.push(tmp);
-      tmp = "";
-    }
-    if (char[i] === " " && tmp != "") {
-      resultArr.push(tmp);
-      resultArr.push(" ");
-      tmp = "";
+    if (countWord == 5 && i != arr.length - 1) {
+      char = char + "/";
+      countWord = 0;
     }
   }
 
-  let result = ""
-  for (let i = 0; i < resultArr.length; i++) {
-    if (resultArr[i] != " ") result = result + MORSE_TABLE[resultArr[i]]
-    if (resultArr[i] == " ") result = result + " ";
+console.log(char)
+  char = char.split("/")
+
+console.log(char)
+
+  let result = "";
+  for (let i = 0; i < char.length; i++) {
+    if (char[i] != " ") result = result + MORSE_TABLE[char[i]]
+    if (char[i] == " ") result = result + " ";
   }
 
 
